@@ -151,7 +151,7 @@ module Formtastic
         end
         
         def value
-          object.send(method) if object && object.respond_to?(method)
+          @options[:default] || (object.send(method) if object && object.respond_to?(method))
         end
         
         def fragment_input_html(fragment)
