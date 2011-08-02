@@ -1047,7 +1047,7 @@ module Formtastic #:nodoc:
         list_items_capture = ""
         hidden_fields_capture = ""
 
-        datetime = @object.send(method) if @object && @object.send(method)
+        datetime = (@object.send(method) if @object && @object.send(method)) || options[:default]
 
         html_options = options.delete(:input_html) || {}
         input_ids    = []
