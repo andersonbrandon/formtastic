@@ -929,6 +929,8 @@ module Formtastic #:nodoc:
         value_as_class = options.delete(:value_as_class)
         input_ids = []
 
+        checked = options.delete(:checked)
+        
         list_item_content = collection.map do |c|
           label = c.is_a?(Array) ? c.first : c
           value = c.is_a?(Array) ? c.last  : c
@@ -936,7 +938,8 @@ module Formtastic #:nodoc:
           input_ids << input_id
 
           html_options[:id] = input_id
-
+          html_options[:checked] = (value.to_sym == checked.to_sym) unless checked.nil?
+          
           li_content = template.content_tag(:label,
             Formtastic::Util.html_safe("#{radio_button(input_name, value, html_options)} #{escape_html_entities(label)}"),
             :for => input_id
@@ -1202,7 +1205,8 @@ module Formtastic #:nodoc:
           label, value = detect_label_and_value_method!(collection, options)
           [*collection.map { |o| send_or_call(value, o) }].compact
         else
-          []
+          puts "Sending back default #{options[:selected] || []}"
+          options[:selected] || []
         end
       end
 
